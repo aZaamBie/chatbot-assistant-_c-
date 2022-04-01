@@ -122,6 +122,7 @@
             // 
             this.btn_Send.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Send.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Send.BackgroundImage = global::ChatBotJARVIS.Properties.Resources.send_icon_64x64_;
             this.btn_Send.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_Send.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_Send.Location = new System.Drawing.Point(650, 733);

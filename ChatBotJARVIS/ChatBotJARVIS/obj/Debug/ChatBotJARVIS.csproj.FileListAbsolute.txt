@@ -11,3 +11,4 @@ C:\Users\Azaam\source\repos\ChatBotJARVIS\ChatBotJARVIS\bin\Debug\ChatBotJARVIS.
 C:\Users\Azaam\source\repos\ChatBotJARVIS\ChatBotJARVIS\obj\Debug\ChatBotJARVIS.exe
 C:\Users\Azaam\source\repos\ChatBotJARVIS\ChatBotJARVIS\obj\Debug\ChatBotJARVIS.pdb
 C:\Users\Azaam\source\repos\ChatBotJARVIS\ChatBotJARVIS\obj\Debug\ChatBotJARVIS.csproj.AssemblyReference.cache
+C:\Users\Azaam\source\repos\ChatBotJARVIS\ChatBotJARVIS\obj\Debug\ChatBotJARVIS.TimeGlobalFORM.resources

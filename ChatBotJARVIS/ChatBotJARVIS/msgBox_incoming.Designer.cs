@@ -41,9 +41,10 @@
             this.lbl_Text.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.lbl_Text.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Text.Location = new System.Drawing.Point(72, 0);
+            this.lbl_Text.MinimumSize = new System.Drawing.Size(328, 70);
             this.lbl_Text.Name = "lbl_Text";
             this.lbl_Text.Padding = new System.Windows.Forms.Padding(2);
-            this.lbl_Text.Size = new System.Drawing.Size(330, 70);
+            this.lbl_Text.Size = new System.Drawing.Size(328, 70);
             this.lbl_Text.TabIndex = 0;
             this.lbl_Text.Text = "Hello there. I\'m Jarvis";
             // 

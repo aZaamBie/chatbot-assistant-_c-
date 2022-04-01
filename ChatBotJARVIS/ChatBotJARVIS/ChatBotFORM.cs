@@ -18,6 +18,7 @@ namespace ChatBotJARVIS
         public bool inputTouched = false;
         public bool timerDone = true;
         public bool greeted = false;
+        public string Message = "";
         public string lastMessage = "";
 
         public static System.Windows.Forms.Timer newTimer;
@@ -41,18 +42,17 @@ namespace ChatBotJARVIS
             newMessageLOAD(userCommand, true, false); // user message
 
             string userC_UPPER = userCommand.ToUpper();
-
             string[] firstWord = userCommand.Split(' '); // splits the string into substring in an array
-            string[] secondWord = userCommand.Split(' '); // string[] secondWord = userCommand.Split(' ');
+            string[] secondWord = userCommand.Split(' ');
 
             //- case statment -//
-            switch (userC_UPPER) // (userCommand 
+            switch (userC_UPPER) // (userCommand)
             {
                 // GREETINGS
                 case "HELLO": // hello
                     if (greeted == false) // (greeted == false)
                     {
-                        newMessageLOAD("Hello there. I'm Jarvis.", false, true); // bot message
+                        newMessageLOAD("Hello there. I'm JARVIS.", false, true); // bot message
                         greeted = true;
                         break;
                     }
@@ -62,69 +62,88 @@ namespace ChatBotJARVIS
                         break;
                     }
                 case "YO": // yo
-                    newMessageLOAD("Yo yo, what's up", false, true); // bot message
+                    if (lastMessage != Message)
+                    {
+                        newMessageLOAD("Yo yo, what's up?", false, true); // bot message      !!!## ORIGINAL METHOD
+                    }
+
+                    else if (lastMessage == Message)
+                    {
+                        newMessageLOAD("Yo?", false, true); // bot message
+                    }
                     break;
                 case "EXIT":
-                    if (MessageBox.Show("Are you sure?", "Quitting app", MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                    {
-                        this.Close();
-                    }
+                    if (MessageBox.Show("Are you sure?", "Quitting app", MessageBoxButtons.YesNo, MessageBoxIcon.None,
+                        MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    { this.Close(); }
                     break;
 
                 //
                 case "WHO ARE YOU":
-                    newMessageLOAD("I'm JARVIS", false, true); // bot message
+                    if (lastMessage != Message)
+                    { newMessageLOAD("I'm JARVIS", false, true); } // bot message        !!!## ORIGINAL METHOD
+                    else
+                    { newMessageLOAD("I said I'm Jarvis.", false, true); }
                     break;
                 case "WHO ARE YOU?":
-                    newMessageLOAD("I'm JARVIS", false, true); // bot message
-                    break;
-                case "WHAT ARE YOU?":
-                    newMessageLOAD("I'm a chatbot/virtual assistant like Alexa or Siri.", false, true); // bot message
+                    if (lastMessage != Message)
+                    { newMessageLOAD("I'm JARVIS", false, true); } // bot message        !!!## ORIGINAL METHOD 
+                    else
+                    { newMessageLOAD("I said I'm Jarvis.", false, true); }
                     break;
 
-                case " ":
+                case "WHAT ARE YOU":
+                    if (lastMessage != Message)
+                    { newMessageLOAD("I'm a chatbot/virtual assistant like Alexa or Siri.", false, true); } // !!!## ORIGINAL METHOD
+                    else
+                    { newMessageLOAD("Once again, I'm a chatbot / virtual assistant.", false, true); }
+                    break;
+                case "WHAT ARE YOU?":
+                    if (lastMessage != Message)
+                    { newMessageLOAD("I'm a chatbot/virtual assistant like Alexa or Siri.", false, true); } // !!!## ORIGINAL METHOD
+                    else
+                    { newMessageLOAD("Once again, I'm a chatbot / virtual assistant.", false, true); }
+                    break;
+
+                case "HELP":
+                    newMessageLOAD("What do you need help with?", false, true);
+                    newMessageLOAD("P.S. If it's something medical, then I'm sorry but I can't help. ", false, true);
+                    newMessageLOAD("buut I can  give you direction to find your solution!", false, true);
+                    break;
+
+                // TIME
+                case "TIME":
+                    TimeGlobalFORM newFrm = new TimeGlobalFORM();
+                    newFrm.ShowDialog();
+                    break;
+
+                // LIST
+                case "LIST":
+                    newMessageLOAD("List of commands:" +
+                        "\n" + "- time (a window with timezones will be displayed)" +
+                        "\n" + "- search (you can type anything after this and it will be searched on a browser)" +
+                        "\n" + "- tell me a (you can type either: joke or quote and I will respond with one of those)",
+                        false, true); // bot message
+                    break;
+
+                // blank response
+                case "":
                     newMessageLOAD("I can't respond to a blank command", false, true); // bot message
                     break;
 
             }
 
-            //## 'SEARCH' COMMAND ##\\
+            // CONFUSED?
+            if ((Message.ToUpper() == "IM CONFUSED") || (Message.ToUpper() == "I'M CONFUSED"))
+            {
+                newMessageLOAD("I can give you a list of commands, that I can respond to", false, true);
+            }
+            else { return; }
+
+            //-- 'SEARCH' COMMAND
             string google;
 
-            //__ SOLUTION 1 __\\
-/*            foreach (string word in firstWord) // iteration
-            {
-
-                if (word == "search" || word == "google")
-                {
-                    google = "https://www.google.com/search?q=";
-
-*//*                    foreach (string word2 in secondWord)
-                    {
-                        if (word2 != "search") // disregards
-                        {
-                            //string strWord = new string(word2);
-                            //string strWord = string.Join("", word2);
-                            //string strWord = string.Concat(word2);
-                            string strWord = word2.ToString();
-
-                            //Console.WriteLine(strWord);
-                            //Console.WriteLine(word2);
-
-*//*                          
-                            google = "https://www.google.com/search?q=" + word2;
-                            Process.Start(google); *//*
-                        }
-                    }*//*
-
-                    Console.WriteLine(word, " is word");
-                }
-
-*//*              google = "https://www.google.com/search?q=" + secondWord;
-                Process.Start(google);*//*
-            }*/
-
-            //__ SOLUTION 2 __\\
+            // SOLUTION 2 \\
             if ( (firstWord[0].ToUpper()== "SEARCH")) // checks whether 1st element has the word "Search"
             {
                 secondWord = secondWord.Skip(1).ToArray();  // skips the 1st word (SEARCH)
@@ -135,6 +154,45 @@ namespace ChatBotJARVIS
                 Process.Start(google); // searches the input on google
             }
 
+
+            //-- 'TELL ME' COMMAND
+            if (firstWord.Length > 3)
+            {
+
+                if ((firstWord[0].ToUpper() == "TELL") & (firstWord[1].ToUpper() == "ME") & (firstWord[2].ToUpper() == "A"))
+                {
+                    // Console.WriteLine("it's a tell me function");
+                    switch (firstWord[3].ToUpper())
+                    {
+                        case "JOKE":
+                            jokeResponse();
+                            break;
+
+                        case "QUOTE":
+                            break;
+                    }
+                }
+                else
+                { return; }
+            }
+
+            //- TIME COMMAND
+
+        }
+
+        string[] jokes = new string[] { "Why did the chicken cross the road? To get to the other side",
+            "What does a liar do when they're dead? They lie still", "What kind of tea is hard to swallow? Reality",
+            "What's the difference between 100 dead babies and a Ferrarri? I don't keep a ferrarri in my garage",
+            "Dark humor is like water, not everyone gets it", 
+            "Today I learned all about the orbicularis oculi muscles. Quite the eye opener I tell ya"};
+
+        private void jokeResponse() // MANAGES THE JOKES TO TELL
+        {
+            Random randomChoice = new Random();
+            int numberOfJokes = jokes.Length; // gets the total number of all elements
+            int jokeChoice = randomChoice.Next(numberOfJokes); // sets the joke choice to a number between 1 and numberOfJokes
+
+            newMessageLOAD(jokes[jokeChoice], false, true); // bot message
         }
 
         // LOADING LABELS 
@@ -146,34 +204,12 @@ namespace ChatBotJARVIS
 
         private void newMessageLOAD(string newMessage,bool userResponse,bool botResponse)
         {
-            //Console.WriteLine(newMessage + " from func newMessageLOAD");
 
             if (userResponse==true && botResponse == false) //  USER RESPONSE
             {
                 count++;
                 for (int i = 0; i < count; i++)
                 {
-                    // DYNAMIC LABELS
-/*                    locY += 30;
-
-                    Label newLabel = new Label();
-                    this.Controls.Add(newLabel); // adds label to form
-                    //pnl_BODY.Controls.Add(new Label()); // adds label to panel
-
-                    newLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                    newLabel.BackColor = Color.Brown; // back color   / Color.BlueViolet;
-                    newLabel.ForeColor = Color.White; // text color
-                    newLabel.Location = new Point(locX, locY); // adds to location
-                    newLabel.Padding = new Padding(4);
-                    // newLabel.Dock = DockStyle.Right;
-                    newLabel.TextAlign = ContentAlignment.MiddleCenter;
-
-                    newLabel.Font = new Font("Arial", 18f, FontStyle.Regular, GraphicsUnit.Point); // sets up font
-                    newLabel.Visible = true;
-                    newLabel.AutoSize = true; // true
-                    newLabel.Text = newMessage; // sets the label text
-                    newLabel.BringToFront();*/
-
                     // USER FORM
                     locY += 70; // 10
 
@@ -193,26 +229,6 @@ namespace ChatBotJARVIS
                 count++;
                 for (int i = 0; i < count; i++)
                 {
-                    // DYNAMIC LABELS
-/*                    locY += 30;
-
-                    Label newLabel = new Label();
-                    this.Controls.Add(newLabel); // adds label to form
-                    //pnl_BODY.Controls.Add(new Label()); // adds label to panel
-
-                    newLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    newLabel.BackColor = Color.DarkRed; // back color   / Color.BlueViolet;
-                    newLabel.ForeColor = Color.White; // text color
-                    newLabel.Location = new Point(bot_locX, locY); // adds to location
-                    newLabel.Padding = new Padding(4);
-                    newLabel.TextAlign = ContentAlignment.MiddleCenter;
-
-                    newLabel.Font = new Font("Arial", 18f, FontStyle.Regular, GraphicsUnit.Point); // sets up font
-                    newLabel.Visible = true;
-                    newLabel.AutoSize = true;
-                    newLabel.Text = newMessage; // sets the label text
-                    newLabel.BringToFront();*/
-
                     // USER FORM
                     locY += 70; // 10
 
@@ -233,8 +249,14 @@ namespace ChatBotJARVIS
 
         public void sendMessage()
         {
-            lastMessage = txtBox_UserInput.Text; // gets user text
-            botRespond(lastMessage);
+            if (Message != "")
+            {
+                lastMessage = Message;
+                Console.WriteLine(lastMessage + " is last message");
+            }
+            Message = txtBox_UserInput.Text; // gets user text
+            Console.WriteLine(Message + " is current message");
+            botRespond(Message);
             clearTextBox();
         }
 
